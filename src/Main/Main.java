@@ -41,6 +41,7 @@ public class Main extends JavaPlugin implements Listener {
                 new ChatComponentText(ChatColor.RED + "XP : "+ ChatColor.BLUE + xp),
                 (byte)2);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+        LevelSetsManager.updatePlayer(this, player);
     }
 
     @EventHandler
