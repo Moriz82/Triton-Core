@@ -1,0 +1,4 @@
+main: Main.Main
+name: Triton-Core
+description: Triton MC Core Plugin
+version: 1.0
