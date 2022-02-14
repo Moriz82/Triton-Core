@@ -1,22 +1,19 @@
-package Main;
+package Main.EventManagers;
 
+import Main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
-public class SidebarListener implements Listener {
+public class SidebarManager {
 
     private final Main main;
 
-    public SidebarListener(Main main) {
+    public SidebarManager(Main main) {
         this.main = main;
     }
 

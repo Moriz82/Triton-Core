@@ -1,5 +1,6 @@
-package Main;
+package Main.EventManagers;
 
+import Main.Main;
 import net.minecraft.server.v1_8_R3.ChatComponentText;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import org.bukkit.ChatColor;

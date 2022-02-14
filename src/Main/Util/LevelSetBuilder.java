@@ -1,6 +1,5 @@
-package Main;
+package Main.Util;
 
-import net.minecraft.server.v1_8_R3.EnchantmentManager;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;

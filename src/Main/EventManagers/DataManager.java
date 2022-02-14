@@ -1,7 +1,8 @@
-package Main;
+package Main.EventManagers;
 
-import com.google.gson.JsonObject;
-import org.bukkit.enchantments.Enchantment;
+import Main.Main;
+import Main.Util.LevelSet;
+import Main.Util.LevelSetBuilder;
 import org.bukkit.entity.Player;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -10,11 +11,9 @@ import org.json.simple.parser.JSONParser;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 public class DataManager {
     public static void SaveData(Main main) {

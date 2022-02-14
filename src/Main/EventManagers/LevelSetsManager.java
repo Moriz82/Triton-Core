@@ -1,13 +1,13 @@
-package Main;
+package Main.EventManagers;
 
+import Main.Util.LevelSet;
+import Main.Main;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.util.HashMap;
@@ -65,7 +65,7 @@ public class LevelSetsManager {
             inventory.setItem(0, levelSet.sword);
             inventory.setItem(1, levelSet.axe);
             player.updateInventory();
-            SidebarListener.updateSidebar(player, main);
+            SidebarManager.updateSidebar(player, main);
         }
         System.out.println(levelSet);
         System.out.println(main.levelSets);

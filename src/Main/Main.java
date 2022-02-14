@@ -1,5 +1,11 @@
 package Main;
 
+import Main.EventManagers.DataManager;
+import Main.EventManagers.KillManager;
+import Main.EventManagers.LevelSetsManager;
+import Main.EventManagers.SidebarManager;
+import Main.Init.EventInit;
+import Main.Util.LevelSet;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -29,8 +35,8 @@ public class Main extends JavaPlugin implements Listener {
     public void onPlayerDeath(PlayerDeathEvent event) {
         KillManager.onPlayerKilled(event.getEntity().getKiller(), event.getEntity(), this);
         LevelSetsManager.updatePlayer(this, event.getEntity().getKiller());
-        SidebarListener.updateSidebar(event.getEntity(), this);
-        SidebarListener.updateSidebar(event.getEntity().getKiller(), this);
+        SidebarManager.updateSidebar(event.getEntity(), this);
+        SidebarManager.updateSidebar(event.getEntity().getKiller(), this);
         DataManager.SaveData(this);
     }
 
@@ -38,7 +44,7 @@ public class Main extends JavaPlugin implements Listener {
     public void onPlayerSpawn(PlayerRespawnEvent ev) {
         Player player = ev.getPlayer();
         LevelSetsManager.updatePlayer(this, player);
-        SidebarListener.updateSidebar(player, this);
+        SidebarManager.updateSidebar(player, this);
     }
 
     @EventHandler

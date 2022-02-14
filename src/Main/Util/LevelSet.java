@@ -1,12 +1,12 @@
-package Main;
+package Main.Util;
 
 import org.bukkit.inventory.ItemStack;
 
 public class LevelSet {
-    ItemStack helmet, chestPlate, leggings, boots;
-    ItemStack sword, axe;
-    double xpRequired;
-    String name;
+    public ItemStack helmet, chestPlate, leggings, boots;
+    public ItemStack sword, axe;
+    public double xpRequired;
+    public String name;
 
     public LevelSet(ItemStack helmet, ItemStack chestPlate, ItemStack leggings, ItemStack boots,
                     ItemStack sword, ItemStack axe, double xpRequired, String name) {
