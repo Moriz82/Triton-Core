@@ -1,4 +1,4 @@
-package Main.Command;
+package Main.Command.admin;
 
 import Main.Main;
 import org.bukkit.Bukkit;
@@ -24,7 +24,7 @@ public class SpawnShopCommand implements CommandExecutor {
 		try{
 			Player player = (Player) commandSender;
 
-
+			if (!player.isOp()){ player.sendMessage(ChatColor.RED + "You do not have permission to use this command"); return false;}
 
 			player.sendMessage(ChatColor.GREEN + "Shop Spawned Successfully");
 			return true;

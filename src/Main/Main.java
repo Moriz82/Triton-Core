@@ -4,6 +4,7 @@ import Main.EventManagers.DataManager;
 import Main.EventManagers.KillManager;
 import Main.EventManagers.LevelSetsManager;
 import Main.EventManagers.SidebarManager;
+import Main.Init.CommandInit;
 import Main.Init.EventInit;
 import Main.Util.LevelSet;
 import org.bukkit.entity.Player;
@@ -27,6 +28,7 @@ public class Main extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        CommandInit.Init(this);
         EventInit.Init(this);
         DataManager.LoadData(this);
     }

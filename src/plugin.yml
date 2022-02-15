@@ -2,3 +2,10 @@ main: Main.Main
 name: Triton-Core
 description: Triton MC Core Plugin
 version: 1.0
+commands:
+  xpl:
+    description: lists your xp level
+  spawnshop:
+    description: for admin use only
+  setLevel:
+    description: for admin use only
