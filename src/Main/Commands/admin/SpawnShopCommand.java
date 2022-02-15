@@ -1,18 +1,17 @@
-package Main.Command;
+package Main.Commands.admin;
 
+import Main.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import Main.Main;
-import org.bukkit.craftbukkit.libs.org.ibex.nestedvm.util.Platform;
 import org.bukkit.entity.Player;
 
-public class XplCommand implements CommandExecutor {
+public class SpawnShopCommand implements CommandExecutor {
 
 	Main main;
 
-	public XplCommand(Main main) {
+	public SpawnShopCommand(Main main) {
 		this.main = main;
 	}
 
@@ -20,7 +19,10 @@ public class XplCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 		try{
 			Player player = (Player) commandSender;
-			player.sendMessage(ChatColor.RED + "XP : " + ChatColor.BLUE + main.expMap.get(player));
+
+			if (!player.isOp()){ player.sendMessage(ChatColor.RED + "You do not have permission to use this command"); return false;}
+
+			player.sendMessage(ChatColor.GREEN + "Shop Spawned Successfully");
 			return true;
 		}
 		catch (Exception e){System.out.println("Your not a player, or some other error occurred!");}

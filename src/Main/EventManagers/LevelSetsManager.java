@@ -10,27 +10,10 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class LevelSetsManager {
 
-    public static Map<Player, LevelSet> playerLevelSets = new HashMap<>();
-
-    public static void onPlayerJoin(Main main, Player player) {
-        if (!main.expMap.containsKey(player)) {
-            if (!main.expMapStorage.containsKey(player.getDisplayName())) {
-                main.expMap.put(player, 0.0);
-                main.expMapStorage.put(player.getDisplayName(), 0.0);
-            } else {
-                main.expMap.put(player, main.expMapStorage.get(player.getDisplayName()));
-            }
-        }else if(main.expMap.get(player) == null){main.expMap.put(player, 0.0);}
-        updatePlayer(main, player);
-    }
-
-    public static void updatePlayer(Main main, Player player){
-        double playerXp = main.expMap.get(player);
+    public static void updatePlayer(Main main, Player player) {
+        double playerXp = main.playerData.get(player).xp;
         LevelSet levelSet = null;
         for (LevelSet set : main.levelSets) {
             if (set.xpRequired <= playerXp) {
@@ -38,8 +21,8 @@ public class LevelSetsManager {
             }
         }
         if (levelSet != null){
-            if (playerLevelSets.containsKey(player)){
-                if (levelSet != playerLevelSets.get(player)) {
+            if (main.playerData.get(player).levelSet != null){
+                if (levelSet != main.playerData.get(player).levelSet) {
                     player.playSound(player.getLocation(), Sound.ENDERDRAGON_DEATH, 1, 2);
 
                     IChatBaseComponent chatTitle = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + "LEVEL UP!" + "\",color:" + ChatColor.GOLD.name().toLowerCase() + "}");
@@ -52,9 +35,9 @@ public class LevelSetsManager {
                     ((CraftPlayer) player).getHandle().playerConnection.sendPacket(subtitle);
                     ((CraftPlayer) player).getHandle().playerConnection.sendPacket(length);
                 }
-                playerLevelSets.replace(player, levelSet);
+                main.playerData.get(player).levelSet = levelSet;
             }else{
-                playerLevelSets.put(player, levelSet);
+                main.playerData.get(player).levelSet = levelSet;
             }
             PlayerInventory inventory = player.getInventory();
             inventory.clear();
@@ -69,5 +52,10 @@ public class LevelSetsManager {
         }
         System.out.println(levelSet);
         System.out.println(main.levelSets);
+    }
+
+    public static void setLevel(Player player, LevelSet levelSet, Main main) {
+        main.playerData.get(player).xp = levelSet.xpRequired;
+        updatePlayer(main, player);
     }
 }

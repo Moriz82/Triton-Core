@@ -7,61 +7,55 @@ import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.PlayerDeathEvent;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class KillManager {
 
     public static double xpPerKill = 5;
-    public static Map<Player, Integer> killStreaks = new HashMap<>();
-    public static Map<Player, Integer> xpMultiplier = new HashMap<>();
 
     public static void onPlayerKilled(Player player, Player killedPlayer, Main main) {
         if (player != killedPlayer){
             player.setHealth(player.getMaxHealth());
         }
         player.playSound(player.getLocation(), Sound.LEVEL_UP, 1, 1);
-        double xp = main.expMap.get(player);
-        int xpMulti = xpMultiplier.get(player);
+        int xp = main.playerData.get(player).xp;
+        int xpMulti = main.playerData.get(player).xpMultiplier;
         xp += xpPerKill * xpMulti;
-        if (killStreaks.containsKey(killedPlayer)){
-            int val = killStreaks.get(player);
-            if (val >= 5){
-                if (val >= 10) {
-                    if (val >= 25){
-                        if (val >= 60){
-                            xp += 115;
-                        }else{ xp += 50; }
-                    }else{ xp += 20; }
-                } else{ xp += 10; }
-            }
-            killStreaks.replace(killedPlayer, 0);
+
+        int val = main.playerData.get(killedPlayer).killStreak;
+        if (val >= 5){
+            if (val >= 10) {
+                if (val >= 25){
+                    if (val >= 60){
+                        xp += 115;
+                    }else{ xp += 50; }
+                }else{ xp += 20; }
+            } else{ xp += 10; }
         }
-        main.expMap.replace(player, xp);
+        main.playerData.get(killedPlayer).killStreak = 0;
+
+        main.playerData.get(player).xp = xp;
         PacketPlayOutChat packet = new PacketPlayOutChat(
                 new ChatComponentText(ChatColor.RED + "XP : "+ ChatColor.BLUE + xp),
                 (byte)2);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
 
-        killStreaks.replace(player, killStreaks.get(player)+1);
-        int streak = killStreaks.get(player);
+        main.playerData.get(player).killStreak++;
+        int streak = main.playerData.get(player).killStreak;
         switch (streak){
             case 5:
-                xpMultiplier.replace(player, 2);
+                main.playerData.get(player).xpMultiplier = 2;
                 break;
             case 15:
-                xpMultiplier.replace(player, 3);
+                main.playerData.get(player).xpMultiplier = 3;
                 break;
             case 30:
-                xpMultiplier.replace(player, 5);
+                main.playerData.get(player).xpMultiplier = 5;
                 break;
             case 50:
-                xpMultiplier.replace(player, 7);
+                main.playerData.get(player).xpMultiplier = 7;
                 break;
             case 75:
-                xpMultiplier.replace(player, 10);
+                main.playerData.get(player).xpMultiplier = 10;
                 break;
             default:
                 break;

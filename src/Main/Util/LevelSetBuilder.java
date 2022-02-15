@@ -10,13 +10,13 @@ public class LevelSetBuilder implements Serializable {
     String helmet, chestPlate, leggings, boots;
     String sword, axe;
     String name;
-    double xpRequired;
+    int xpRequired;
     String[] helmetEnchant, chestPlateEnchant, leggingsEnchant, bootsEnchant, swordEnchant, axeEnchant;
     Integer[] helmetEnchantLevel, chestPlateEnchantLevel, leggingsEnchantLevel,
             bootsEnchantLevel, swordEnchantLevel, axeEnchantLevel;
 
     public LevelSetBuilder(String helmet, String chestPlate, String leggings, String boots,
-                           String sword, String axe, double xpRequired, String[] helmetEnchant,
+                           String sword, String axe, int xpRequired, String[] helmetEnchant,
                            String[] chestPlateEnchant, String[] leggingsEnchant, String[] bootsEnchant,
                            String[] swordEnchant, String[] axeEnchant, Integer[] helmetEnchantLevel,
                            Integer[] chestPlateEnchantLevel, Integer[] leggingsEnchantLevel,

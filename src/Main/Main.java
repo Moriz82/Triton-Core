@@ -7,6 +7,8 @@ import Main.EventManagers.SidebarManager;
 import Main.Init.CommandInit;
 import Main.Init.EventInit;
 import Main.Util.LevelSet;
+import Main.Util.PlayerData;
+import Main.Util.PlayerDataBuilder;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,8 +24,9 @@ import java.util.List;
 import java.util.Map;
 
 public class Main extends JavaPlugin implements Listener {
-    public Map<String, Double> expMapStorage = new HashMap<>();
-    public Map<Player, Double> expMap = new HashMap<>();
+
+    public Map<Player, PlayerData> playerData = new HashMap<>();
+    public Map<String, PlayerData> playerDataStorage = new HashMap<>();
     public List<LevelSet> levelSets = new ArrayList<>();
 
     @Override
@@ -52,11 +55,13 @@ public class Main extends JavaPlugin implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent ev) {
         Player player = ev.getPlayer();
-        if (!KillManager.xpMultiplier.containsKey(player))
-            KillManager.xpMultiplier.put(player, 1);
-        if (!KillManager.killStreaks.containsKey(player))
-            KillManager.killStreaks.put(player, 0);
-        LevelSetsManager.onPlayerJoin(this, player);
+        if (!playerData.containsKey(player)){
+            if (!playerDataStorage.containsKey(player.getDisplayName())) {
+                playerData.put(player, new PlayerData(0, 0, 0, 1, null));
+            }else { playerData.put(player, playerDataStorage.get(player.getDisplayName())); }
+        }
+
+        LevelSetsManager.updatePlayer(this, player);
         DataManager.SaveData(this);
     }
 

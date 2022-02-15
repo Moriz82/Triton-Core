@@ -5,11 +5,11 @@ import org.bukkit.inventory.ItemStack;
 public class LevelSet {
     public ItemStack helmet, chestPlate, leggings, boots;
     public ItemStack sword, axe;
-    public double xpRequired;
+    public int xpRequired;
     public String name;
 
     public LevelSet(ItemStack helmet, ItemStack chestPlate, ItemStack leggings, ItemStack boots,
-                    ItemStack sword, ItemStack axe, double xpRequired, String name) {
+                    ItemStack sword, ItemStack axe, int xpRequired, String name) {
         this.helmet = helmet;
         this.chestPlate = chestPlate;
         this.leggings = leggings;

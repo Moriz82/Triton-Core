@@ -3,6 +3,8 @@ package Main.EventManagers;
 import Main.Main;
 import Main.Util.LevelSet;
 import Main.Util.LevelSetBuilder;
+import Main.Util.PlayerData;
+import Main.Util.PlayerDataBuilder;
 import org.bukkit.entity.Player;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -12,6 +14,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,18 +22,24 @@ public class DataManager {
     public static void SaveData(Main main) {
         try{
             System.out.println("Saving Data");
-            File file = new File("TritonCorePlugin/expMapStorage.dat");
+            File file = new File("TritonCorePlugin/PlayerData.dat");
             if (!file.exists()){
                 new File("TritonCorePlugin").mkdirs();
                 file.createNewFile();
             }
-            FileOutputStream fos = new FileOutputStream("TritonCorePlugin/expMapStorage.dat");
+            FileOutputStream fos = new FileOutputStream("TritonCorePlugin/PlayerData.dat");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-            for (Player player : main.expMap.keySet())
-                main.expMapStorage.put(player.getDisplayName(), main.expMap.get(player));
+            Map<String, PlayerDataBuilder> playerDataStorage = new HashMap<>();
 
-            oos.writeObject(main.expMapStorage);
+            for (Player player : main.playerData.keySet()) {
+                PlayerData playerData = main.playerData.get(player);
+                playerDataStorage.put(player.getDisplayName(), new PlayerDataBuilder(
+                        playerData.xp, playerData.killStreak, playerData.longestKillStreak,
+                        playerData.xpMultiplier, playerData.levelSet.name));
+            }
+
+            oos.writeObject(playerDataStorage);
             oos.close();
 
             file = new File("TritonCorePlugin/levelSets.json");
@@ -95,16 +104,9 @@ public class DataManager {
     public static void LoadData(Main main) {
         try{
             System.out.println("Loading Data");
-            File file = new File("TritonCorePlugin/expMapStorage.dat");
-            if (file.exists()){
-                FileInputStream fin = new FileInputStream("TritonCorePlugin/expMapStorage.dat");
-                ObjectInputStream ois = new ObjectInputStream(fin);
-                main.expMapStorage = (Map<String, Double>) ois.readObject();
-                ois.close();
-            }
 
 
-            file = new File("TritonCorePlugin/levelSets.json");
+            File file = new File("TritonCorePlugin/levelSets.json");
             if (!file.exists()){return;}
 
             List<LevelSet> levelSets = new ArrayList<>();
@@ -172,7 +174,7 @@ public class DataManager {
                         (String) jsonObject.get("boots"),
                         (String) jsonObject.get("sword"),
                         (String) jsonObject.get("axe"),
-                        Double.parseDouble(((Long)jsonObject.get("xpRequired")).toString()),
+                        Integer.parseInt(((Long)jsonObject.get("xpRequired")).toString()),
                         helmetEnchants.toArray(new String[helmetEnchants.size()]),
                         chestPlateEnchants.toArray(new String[chestPlateEnchants.size()]),
                         leggingsEnchants.toArray(new String[leggingsEnchants.size()]),
@@ -191,9 +193,36 @@ public class DataManager {
 
             main.levelSets = levelSets;
             System.out.println(levelSets);
+
+            file = new File("TritonCorePlugin/PlayerData.dat");
+            if (file.exists()){
+                FileInputStream fin = new FileInputStream("TritonCorePlugin/PlayerData.dat");
+                ObjectInputStream ois = new ObjectInputStream(fin);
+                Map<String, PlayerDataBuilder> playerDataStorage = (Map<String, PlayerDataBuilder>) ois.readObject();
+
+                for (String name : playerDataStorage.keySet()) {
+                    PlayerDataBuilder builder = playerDataStorage.get(name);
+                    LevelSet set = null;
+                    for (LevelSet levelSet : main.levelSets){
+                        if (levelSet.name.equals(name)){
+                            set = levelSet;
+                            break;
+                        }
+                    }
+                    main.playerDataStorage.put(name, new PlayerData(
+                            builder.xp, builder.killStreak, builder.longestKillStreak,
+                            builder.xpMultiplier, set
+                    ));
+                }
+
+                ois.close();
+            }
+
         }
         catch (Exception ev){
             ev.printStackTrace();
         }
+
+
     }
 }

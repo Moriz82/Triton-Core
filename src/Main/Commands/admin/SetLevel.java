@@ -1,4 +1,4 @@
-package Main.Command.admin;
+package Main.Commands.admin;
 
 
 import Main.Main;
@@ -13,6 +13,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.Collections;
+
 public class SetLevel implements CommandExecutor {
 
     Main main;
@@ -25,13 +27,13 @@ public class SetLevel implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 
         try{
-            Player player = (Player) Bukkit.getPlayer(strings[0]);
+            Player player = (Player) commandSender;
+            Player target =  Bukkit.getPlayer(strings[0]);
 
             if (!player.isOp()){ player.sendMessage(ChatColor.RED + "You do not have permission to use this command"); return false;}
 
-            applySetLevelUI(player);
+            applySetLevelUI(player, target);
 
-            player.sendMessage(ChatColor.GREEN + "Level set Successfully!");
             return true;
         }
         catch (Exception e){System.out.println("some error occurred! Make sure to use '/setLevel [PLAYER_NAME]'");}
@@ -40,8 +42,8 @@ public class SetLevel implements CommandExecutor {
 
     }
 
-    public void applySetLevelUI(Player player) {
-        int size = ((int) Math.ceil(main.levelSets.size() / 9)) * 9;
+    public void applySetLevelUI(Player player, Player target) {
+        int size = ((int) Math.ceil((double) main.levelSets.size() / 9)) * 9;
         Inventory gui = Bukkit.createInventory(null, size, ChatColor.RED + "SetLevel GUI");
 
         for (int i = 0; i < main.levelSets.size(); i++) {
@@ -49,6 +51,7 @@ public class SetLevel implements CommandExecutor {
             itemStack = new ItemStack(Material.CHEST);
             ItemMeta itemMeta = itemStack.getItemMeta();
             itemMeta.setDisplayName(ChatColor.GOLD +""+ ChatColor.BOLD +  main.levelSets.get(i).name);
+            itemMeta.setLore(Collections.singletonList(ChatColor.BLUE + target.getDisplayName()));
             itemStack.setItemMeta(itemMeta);
             gui.setItem(i, itemStack);
         }
@@ -57,3 +60,4 @@ public class SetLevel implements CommandExecutor {
 
     }
 }
+
