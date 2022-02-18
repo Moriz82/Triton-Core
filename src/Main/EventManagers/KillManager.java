@@ -13,6 +13,8 @@ public class KillManager {
     public static double xpPerKill = 5;
 
     public static void onPlayerKilled(Player player, Player killedPlayer, Main main) {
+        main.playerData.get(player).kills++;
+        main.playerData.get(killedPlayer).deaths++;
         if (player != killedPlayer){
             player.setHealth(player.getMaxHealth());
         }
@@ -41,6 +43,10 @@ public class KillManager {
 
         main.playerData.get(player).killStreak++;
         int streak = main.playerData.get(player).killStreak;
+
+        if (streak > main.playerData.get(player).longestKillStreak)
+            main.playerData.get(player).longestKillStreak = streak;
+
         switch (streak){
             case 5:
                 main.playerData.get(player).xpMultiplier = 2;

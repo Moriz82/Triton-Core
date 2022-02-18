@@ -57,7 +57,7 @@ public class Main extends JavaPlugin implements Listener {
         Player player = ev.getPlayer();
         if (!playerData.containsKey(player)){
             if (!playerDataStorage.containsKey(player.getDisplayName())) {
-                playerData.put(player, new PlayerData(0, 0, 0, 1, null));
+                playerData.put(player, new PlayerData(0, 0, 0, 0, 0, 1, null));
             }else { playerData.put(player, playerDataStorage.get(player.getDisplayName())); }
         }
 

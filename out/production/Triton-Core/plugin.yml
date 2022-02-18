@@ -9,3 +9,5 @@ commands:
     description: for admin use only
   setLevel:
     description: for admin use only
+  setXp:
+    description: for admin use only

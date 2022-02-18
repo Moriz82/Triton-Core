@@ -31,13 +31,24 @@ public class SidebarManager {
         PlayerData playerData = main.playerData.get(player);
 
         obj.getScore(ChatColor.AQUA.toString() + ChatColor.BOLD + player.getName()).setScore(10);
-        obj.getScore("       ").setScore(9);
-        obj.getScore(ChatColor.RED + "XP : " + ChatColor.BLUE + playerData.xp).setScore(8);
-        obj.getScore(ChatColor.RED + "Level : " + ChatColor.BLUE + playerData.levelSet.name).setScore(7);
-        obj.getScore(ChatColor.RED + "Current Kill Streak : " + playerData.killStreak).setScore(6);
-        obj.getScore(ChatColor.RED + "Current XP Multiplier : " + playerData.xpMultiplier).setScore(5);
-        obj.getScore(ChatColor.RED + "Current Bounty : " + getBounty(playerData.killStreak)).setScore(4);
-        obj.getScore("       ").setScore(3);
+        obj.getScore(ChatColor.RED + "XP : " + ChatColor.BLUE + playerData.xp).setScore(9);
+        obj.getScore(ChatColor.RED + "Kills : " + playerData.kills).setScore(8);
+        obj.getScore(ChatColor.RED + "Deaths : " + playerData.deaths).setScore(7);
+        if (playerData.kills == 0 || playerData.deaths == 0){
+            if (playerData.deaths == 0)
+                obj.getScore(ChatColor.RED + "K/D Ratio : " + playerData.kills).setScore(6);
+            if (playerData.kills == 0)
+                obj.getScore(ChatColor.RED + "K/D Ratio : " + -1 * playerData.kills).setScore(6);
+            if (playerData.kills == 0 && playerData.deaths == 0)
+                obj.getScore(ChatColor.RED + "K/D Ratio : " + '0').setScore(6);
+        }else{
+            obj.getScore(ChatColor.RED + "K/D Ratio : " + String.format("%.2f", (double)playerData.kills / playerData.deaths)).setScore(6);
+        }
+        obj.getScore(ChatColor.RED + "Level : " + ChatColor.BLUE + playerData.levelSet.name).setScore(5);
+        obj.getScore(ChatColor.RED + "Longest Kill Streak : " + playerData.longestKillStreak).setScore(4);
+        obj.getScore(ChatColor.RED + "Current Kill Streak : " + playerData.killStreak).setScore(3);
+        obj.getScore(ChatColor.RED + "Current XP Multiplier : " + playerData.xpMultiplier).setScore(2);
+        obj.getScore(ChatColor.RED + "Current Bounty : " + getBounty(playerData.killStreak)).setScore(1);
 
         player.setScoreboard(board);
 

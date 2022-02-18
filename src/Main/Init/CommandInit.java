@@ -1,5 +1,6 @@
 package Main.Init;
 
+import Main.Commands.admin.SetXp;
 import Main.Commands.admin.SpawnShopCommand;
 import Main.Commands.XplCommand;
 import Main.Commands.admin.SetLevel;
@@ -11,6 +12,7 @@ public class CommandInit {
 		main.getCommand("xpl").setExecutor(new XplCommand(main));
 		main.getCommand("spawnShop").setExecutor(new SpawnShopCommand(main));
 		main.getCommand("setLevel").setExecutor(new SetLevel(main));
+		main.getCommand("setXp").setExecutor(new SetXp(main));
 	}
 
 }

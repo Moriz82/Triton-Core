@@ -1,6 +1,5 @@
 package Main.Commands.admin;
 
-
 import Main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -28,18 +27,16 @@ public class SetLevel implements CommandExecutor {
 
         try{
             Player player = (Player) commandSender;
-            Player target =  Bukkit.getPlayer(strings[0]);
-
-            if (!player.isOp()){ player.sendMessage(ChatColor.RED + "You do not have permission to use this command"); return false;}
-
-            applySetLevelUI(player, target);
-
+            try{
+                Player target =  Bukkit.getPlayer(strings[0]);
+                if (!player.isOp()){ player.sendMessage(ChatColor.RED + "You do not have permission to use this command"); return false;}
+                applySetLevelUI(player, target);
+            }
+            catch (Exception e){player.sendMessage(ChatColor.RED + "some error occurred! Make sure to use '/setLevel [PLAYER_NAME]'");}
             return true;
         }
-        catch (Exception e){System.out.println("some error occurred! Make sure to use '/setLevel [PLAYER_NAME]'");}
-
+        catch (Exception e){System.out.println("some error occurred!");}
         return false;
-
     }
 
     public void applySetLevelUI(Player player, Player target) {
@@ -60,4 +57,3 @@ public class SetLevel implements CommandExecutor {
 
     }
 }
-

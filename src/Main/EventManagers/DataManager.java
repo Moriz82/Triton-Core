@@ -35,7 +35,7 @@ public class DataManager {
             for (Player player : main.playerData.keySet()) {
                 PlayerData playerData = main.playerData.get(player);
                 playerDataStorage.put(player.getDisplayName(), new PlayerDataBuilder(
-                        playerData.xp, playerData.killStreak, playerData.longestKillStreak,
+                        playerData.xp, playerData.kills, playerData.deaths, playerData.killStreak, playerData.longestKillStreak,
                         playerData.xpMultiplier, playerData.levelSet.name));
             }
 
@@ -210,7 +210,7 @@ public class DataManager {
                         }
                     }
                     main.playerDataStorage.put(name, new PlayerData(
-                            builder.xp, builder.killStreak, builder.longestKillStreak,
+                            builder.xp, builder.kills, builder.deaths, builder.killStreak, builder.longestKillStreak,
                             builder.xpMultiplier, set
                     ));
                 }
